@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface ViewController : UIViewController
-
+#import "FacebookManager.h"
+@interface ViewController : UIViewController{
+    FacebookManager *_fbManager;
+}
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "AppDelegate.h"
 @interface ViewController ()
 
 @end
@@ -17,13 +17,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    _fbManager = [appDelegate fbManager];
+    
+    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+        // Yes, so just open the session (this won't display any UX).
+        [_fbManager openSession];
+    } else {
+//        [_fbManager openSession]; //show login controller;
+    }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [_fbManager openSession];
+    [self performSelector:@selector(publish) withObject:nil afterDelay:5.0f];
+}
+
+- (void)publish{
+    [_fbManager publishStory];
 }
 
 @end
